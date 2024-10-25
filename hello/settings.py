@@ -106,7 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'AWST'
+TIME_ZONE = 'Australia/Perth'
 
 USE_I18N = True
 

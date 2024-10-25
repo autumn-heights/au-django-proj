@@ -22,7 +22,6 @@ https://docs.djangoproject.com/en/5.1/intro/tutorial01/
 
 #### Tutorial 2
 
-Create a new model
 https://docs.djangoproject.com/en/5.1/intro/tutorial02/
 
 - Checked out `hello/settings.py` which hosts an extensive list of settings, including `INSTALLED_APPS`, which comes with a bunch of official Django apps by default.
@@ -40,3 +39,22 @@ https://docs.djangoproject.com/en/5.1/intro/tutorial02/
     - Changed the question text and re-saved
     - Called the `Question.objects.all()` method to list all the questions in the DB.
 - Realised we forgot to add a `__str__` method to our model classes so we go back and do that in `polls/models.py`
+- Added the `was_published_recently()` method to `Question` just to play around with
+- Continued to play in the shell. Created a question and assigned it several choices.
+    - We used `q.choice_set.create(...)` and `q.choice_set.all()` to set and get the list of choices associated with a question.
+    - We saw methods like `q.choice_set.filter` and `Questions.objects.filter` and how they had auto generated fields such as `choice_text__startswith` and `pub_date__year`.
+- Used `uv run manage.py createsuperuser` to create an admin account
+- Logged into `127.0.0.1:8000/admin` with the admin account and checked out the portal
+- Edited `polls/admin.py` to `admin.site.register(Question)` register the Question app. Now it shows up on the admin panel. We can go to `127.0.0.1:8000/admin/polls/questions` and use a nice interface to create and edit Questions.
+
+
+#### Tutorial 3
+
+https://docs.djangoproject.com/en/5.1/intro/tutorial03/
+
+```
+A view is a “type” of web page in your Django application that generally serves a specific function and has a specific template. For example, in a blog application, you might have the following views:
+- Blog homepage – displays the latest few entries.
+- Entry “detail” page – permalink page for a single entry.
+...
+```
