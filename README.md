@@ -57,4 +57,40 @@ A view is a “type” of web page in your Django application that generally ser
 - Blog homepage – displays the latest few entries.
 - Entry “detail” page – permalink page for a single entry.
 ...
+In our poll application, we’ll have the following four views:
+- Question “index” page – displays the latest few questions.
+- Question “detail” page – displays a question text, with no results but with a form to vote.
+- Question “results” page – displays results for a particular question.
+- Vote action – handles voting for a particular choice in a particular question.
+...
+In Django, web pages and other content are delivered by views. Each view is represented by a Python function (or method, in the case of class-based views).
+...
+To get from a URL to a view, Django uses what are known as ‘URLconfs’. A URLconf maps URL patterns to views. This tutorial provides basic instruction in the use of URLconfs, and you can refer to [URL dispatcher](https://docs.djangoproject.com/en/5.1/topics/http/urls/) for more information.
 ```
+
+- Added functions representing `detail`, `results`, and `vote` to `polls/views.py` that take in a `request` and a parameter `question_id` and return a simple `HttpResponse`
+- Updated `polls/urls.py` to add three new URLconfs for the three new views, learning how to use syntax like `"<int:question_id>/results"` to define the URL pattern.
+
+```
+When somebody requests a page from your website – say, “/polls/34/”, Django will load the mysite.urls Python module because it’s pointed to by the ROOT_URLCONF setting. It finds the variable named urlpatterns and traverses the patterns in order. After finding the match at 'polls/', it strips off the matching text ("polls/") and sends the remaining text – "34/" – to the ‘polls.urls’ URLconf for further processing. There it matches '<int:question_id>/', resulting in a call to the detail() view.
+```
+
+- Created a slightly more advanced index view that pulls data from `Question.all`
+- Created the `polls/templates/polls` directory for storing our page templates. Yes that is a confusing path but it's best practise in Django for reasons.
+- Created `polls/templates/polls/index.html` template. Learnt Django templating syntax for including logic that will get evaluated by Python:
+    - Using `{% if <condition> %} <html> {% else %} <html> {% endif %}` conditional block
+    - Using `{% for <object> in <iterable> %} <html> {% endfor %}` looping block
+    - Using `{{ <expression> }}` expressions
+- Updated the index view function to:
+    - Use `django.template.loader` to load in the template
+    - Used the template's `template.render` method to generate the contents of the page, and passed that to the returning `HttpResponse`.
+- OK but that was a mouthful for a common task, so there's a shorthand. We can import `django.shortcuts.render` and pass it the request, the path to the template, and the context variables. And return the output of that :)
+- Next we make a template for `polls/templates/polls/detail.html` and update the detail view function to render it. We don't need to waste breath on declaring context as a variable if we can type the dictionary `{"question":question}` into the parameters of render.
+- Add a try-except case to the view that can raise a `django.http.Http404` if the question doesn't exist.
+- We learn another shortcut for the common pattern of trying to `get()` an object and throwing `Http404` if it doesn't exist: `django.shortcuts.get_object_or_404`.
+- Learnt to use the `{% url '<view name>' <parameter value> %}` syntax in the template that evaluates to a URL.
+- We update `polls/urls.py` to include `app_name = "polls"`. This allows us to reference the app name in the template: `% url 'polls:detail' question.id %}`.
+
+#### Tutorial 4
+
+
